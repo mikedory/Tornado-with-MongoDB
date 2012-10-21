@@ -21,6 +21,9 @@ import pymongo
 # import and define tornado-y things
 from tornado.options import define, options
 define("port", default=5000, help="run on the given port", type=int)
+define("mongo_url", default="localhost", help="location of mongodb", type=str)
+define("mongo_port", default=27017, help="port mongodb is listening on", type=int)
+define("mongo_dbname", default="sampledb", help="name of the database", type=str)
 
 
 # application settings and handle mapping info
@@ -35,8 +38,8 @@ class Application(tornado.web.Application):
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             debug=True,
         )
-        conn = pymongo.Connection("localhost", 27017)
-        self.db = conn["sampledb"]
+        conn = pymongo.Connection(options.mongo_url, options.mongo_port)
+        self.db = conn[options.mongo_dbname]
         tornado.web.Application.__init__(self, handlers, **settings)
 
 
@@ -54,7 +57,7 @@ class MainHandler(tornado.web.RequestHandler):
         )
 
 
-# the API handler that allows get/post requests
+# the API handler for get/post requests
 class SampleHandler(tornado.web.RequestHandler):
     def get(self, sample_id=None):
         sample = dict()
