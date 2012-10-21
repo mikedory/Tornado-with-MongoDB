@@ -1,0 +1,32 @@
+<html>   
+<head>
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>{{ page_heading }}</h1>
+        </header>
+        <div id="main">
+            <div id="content">
+                <ul>
+                {% for sample in sample_data %}
+                    <li>{{ sample["id"] }}:
+                        <ul>
+                            <li>{{ sample["title"] }}</li>
+                            <li>{{ sample["text"] }}</li>
+                            <li>{{ sample["date_added"] }}</li>
+                        </ul>
+                    </li>
+                {% end %}
+                <ul>
+            </div>
+        </div>
+        <footer>
+            <p>{{ page_footer }}</p>
+        </footer>
+    </div>
+    <script src="{{ static_url("js/script.js") }}"></script>
+    </body>
+</html>
