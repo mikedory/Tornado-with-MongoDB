@@ -43,11 +43,6 @@ class Application(tornado.web.Application):
 # the main page
 class MainHandler(tornado.web.RequestHandler):
     def get(self, q=None):
-        if os.environ.has_key('GOOGLEANALYTICSID'):
-            google_analytics_id = os.environ['GOOGLEANALYTICSID']
-        else:
-            google_analytics_id = False
-
         coll = self.application.db.samples
         sample_data = coll.find()
         self.render(
@@ -66,12 +61,12 @@ class SampleHandler(tornado.web.RequestHandler):
         if sample_id:
             # grab the sample that matches
             coll = self.application.db.samples
-            sample = coll.find_one({"sample_id": sample_id})
+            sample = coll.find_one({"id": sample_id})
 
             # write out a response
             self.set_header('Content-Type', 'application/json')
             sample_response = {
-                "id" : sample["sample_id"], 
+                "id" : sample["id"], 
                 "title" : sample["title"],
                 "text" : sample["text"],
                 "date_added" : sample["date_added"]
@@ -88,8 +83,6 @@ class SampleHandler(tornado.web.RequestHandler):
         # shape our fields properly
         sample_fields = ['id','title', 'text']
         sample = dict()
-
-        logging.info("id is: "+self.get_argument("id"))
 
         # if posting to a specific ID
         if sample_id:
