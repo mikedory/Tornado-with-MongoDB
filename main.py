@@ -46,8 +46,11 @@ class Application(tornado.web.Application):
 # the main page
 class MainHandler(tornado.web.RequestHandler):
     def get(self, q=None):
+        # find all posts
         coll = self.application.db.samples
         sample_data = coll.find()
+
+        # render 'em out'
         self.render(
             "main.html",
             page_title='Database funtimes',
