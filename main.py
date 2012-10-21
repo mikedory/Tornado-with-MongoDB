@@ -50,11 +50,11 @@ class MainHandler(tornado.web.RequestHandler):
             page_title='Database funtimes',
             page_heading='Mongo is fun for everyone!',
             page_footer='by @mike_dory',
-            google_analytics_id=google_analytics_id,
             sample_data=sample_data
         )
 
 
+# the API handler that allows get/post requests
 class SampleHandler(tornado.web.RequestHandler):
     def get(self, sample_id=None):
         sample = dict()
