@@ -95,6 +95,8 @@ class SampleHandler(tornado.web.RequestHandler):
         # format the incoming data all nicely
         for key in sample_fields:
             sample[key] = self.get_argument(key, None)
+
+        # if the document exists, update it. otherwise, make a new one.
         if (sample_id == sample["id"]):
             coll.update(sample)
         else:
@@ -104,7 +106,8 @@ class SampleHandler(tornado.web.RequestHandler):
         # success!
         self.set_status(200)
 
-# RAMMING SPEEEEEEED!
+
+# let's do this
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
