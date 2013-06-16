@@ -72,10 +72,10 @@ class SampleHandler(tornado.web.RequestHandler):
             # write out a response
             self.set_header('Content-Type', 'application/json')
             sample_response = {
-                "id" : sample["id"], 
-                "title" : sample["title"],
-                "text" : sample["text"],
-                "date_added" : sample["date_added"]
+                "id": sample["id"],
+                "title": sample["title"],
+                "text": sample["text"],
+                "date_added": sample["date_added"]
             }
             self.write(json.dumps(sample_response))
         else:
@@ -87,16 +87,18 @@ class SampleHandler(tornado.web.RequestHandler):
         coll = self.application.db.samples
 
         # shape our fields properly
-        sample_fields = ['id','title', 'text']
+        sample_fields = ['id', 'title', 'text']
         sample = dict()
 
         # if posting to a specific ID
         if sample_id:
-            sample = coll.find_one({"id": sample_id})
+            sample_result = coll.find_one({"id": sample_id})
         elif self.get_argument("id") is not None:
             sample_result = coll.find_one({"id": self.get_argument("id")})
-            if sample_result is not None:
-                sample = sample_result
+        else:
+            sample_result = None
+        if sample_result is not None:
+            sample = sample_result
 
         # format the incoming data all nicely
         for key in sample_fields:
