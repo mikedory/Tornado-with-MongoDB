@@ -12,8 +12,6 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-import unicodedata
-import logging
 import json
 
 import pymongo
